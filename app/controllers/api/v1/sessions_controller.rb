@@ -9,9 +9,13 @@ class Api::V1::SessionsController < Devise::SessionsController
 			render :json=> {:success=>false, :message=>"Error with your login or password"}, :status=>401
 		end
 
-		if resource.valid_password?(params[:password])
+		if resource.valid_password?(params[:password])	
 			sign_in("user", resource)
-			render :json=> {:success=>true, :auth_token=>resource.auth_token,  :email=>resource.email}, :status=>201
+			if resource.has_role? :admin
+				render :json=> {:success=>true, :auth_token=>resource.auth_token,  :email=>resource.email, :user_type=>"admin"}, :status=>201
+			else
+				render :json=> {:success=>true, :auth_token=>resource.auth_token,  :email=>resource.email}, :status=>201
+			end
 		else
 			render :json=> {:success=>false, :message=>"Error with your login or password"}, :status=>401
 		end
