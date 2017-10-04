@@ -63,5 +63,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
+gem 'rolify', '~> 5.1'
 
-# ruby-2.2.3
+# ruby-2.2.3gem rolify
