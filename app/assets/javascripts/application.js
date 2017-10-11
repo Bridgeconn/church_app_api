@@ -11,6 +11,16 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require popper
+//= require bootstrap
+//= require jquery.easing
+//= require Chart
+//= require jquery.dataTables
+//= require dataTables.bootstrap4
+//= require sb-admin
+//= require sb-admin-datatables
+//= require sb-admin-charts
+
+$(document).ready(function () {
+  $(".alert").fadeOut(3000);
+});
