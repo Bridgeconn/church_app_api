@@ -1,7 +1,6 @@
 class Api::V1::SessionsController < Devise::SessionsController
 	prepend_before_action :verify_user, only: [:destroy]
 	skip_before_action :verify_authenticity_token
-	respond_to :json
 
 	def create
 		resource = User.find_for_database_authentication(:email=>params[:email])
@@ -26,7 +25,6 @@ class Api::V1::SessionsController < Devise::SessionsController
 	end
 
 	protected
-
 
 	def invalid_login_attempt
 		warden.custom_failure!
