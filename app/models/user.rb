@@ -5,6 +5,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_one :church_app
+  has_one :picture, class_name: 'Picture', as: :imageable, dependent: :destroy
+
   require 'securerandom'
   before_create :set_auth_token
 
