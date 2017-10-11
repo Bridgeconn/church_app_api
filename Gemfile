@@ -9,6 +9,10 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
 
+gem 'reports', path: "./reports"
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
@@ -64,5 +68,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
 gem 'rolify', '~> 5.1'
+gem 'carrierwave', '~> 1.0'
+gem "mini_magick"
 
-# ruby-2.2.3gem rolify
+# ruby-2.2.3
