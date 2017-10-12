@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-	
+
 	namespace :api do
 		namespace :v1 do
 			devise_for :users,  path_names: {sign_in: "login", sign_out: "logout"},
@@ -8,19 +8,19 @@ Rails.application.routes.draw do
 	end
 
 	devise_for :users,  path_names: {sign_in: "login", sign_out: "logout"},
-				controllers: {registrations: "users/registrations", sessions: "users/sessions"}
-	
+		controllers: {registrations: "users/registrations", sessions: "users/sessions"}
+
 	devise_scope :user do
 		authenticated :user do
-	    root 'home#index', as: :authenticated_root
-	  end
+			root 'home#index', as: :authenticated_root
+		end
 
-	  unauthenticated do
-	    root 'devise/sessions#new', as: :unauthenticated_root
-	  end
+		unauthenticated do
+			root 'devise/sessions#new', as: :unauthenticated_root
+		end
 	end
 
-	resources :users_admin, :controller => 'users' do
+	resources :users do
 		resources :church_apps
 	end
 
