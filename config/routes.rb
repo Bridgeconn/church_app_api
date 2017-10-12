@@ -20,9 +20,12 @@ Rails.application.routes.draw do
 		end
 	end
 
-	resources :users do
-		resources :church_apps
+	namespace :admin_user do
+		resources :users do
+			resources :church_apps
+		end
 	end
+
 
 	# get '/html_test' => 'church_apps#html_test'
 
