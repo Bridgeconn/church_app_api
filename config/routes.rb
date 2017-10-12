@@ -1,14 +1,29 @@
 Rails.application.routes.draw do
-	root 'home#index'
-
-	resources :users
-
-	namespace :api, defaults: {format: 'json'} do
+	
+	namespace :api do
 		namespace :v1 do
 			devise_for :users,  path_names: {sign_in: "login", sign_out: "logout"},
 				controllers: {registrations: "api/v1/registrations", sessions: "api/v1/sessions"}
 		end
 	end
 
-	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+	devise_for :users,  path_names: {sign_in: "login", sign_out: "logout"},
+				controllers: {registrations: "users/registrations", sessions: "users/sessions"}
+	
+	devise_scope :user do
+		authenticated :user do
+	    root 'home#index', as: :authenticated_root
+	  end
+
+	  unauthenticated do
+	    root 'devise/sessions#new', as: :unauthenticated_root
+	  end
+	end
+
+	resources :users_admin, :controller => 'users' do
+		resources :church_apps
+	end
+
+	# get '/html_test' => 'church_apps#html_test'
+
 end
