@@ -1,14 +1,116 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ContactManager</title>
+    <title>Universal Bucket</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+	    <a class="navbar-brand" href="#">Universal Bucket</a>
+	    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarResponsive">
+	      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+	      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+	          <a class="nav-link" href="#">
+	            <i class="fa fa-fw fa-dashboard"></i>
+	            <span class="nav-link-text">Dashboard</span>
+	          </a>
+	        </li>
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+	          <a class="nav-link" href="#">
+	            <i class="fa fa-fw fa-plus"></i>
+	            <span class="nav-link-text">Add Admin</span>
+	          </a>
+	        </li>
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+	          <a class="nav-link" href="#">
+	            <i class="fa fa-fw fa-table"></i>
+	            <span class="nav-link-text">Church List</span>
+	          </a>
+	        </li>
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+	          <a class="nav-link" href="#">
+	            <i class="fa fa-fw fa-table"></i>
+	            <span class="nav-link-text">Admin List</span>
+	          </a>
+	        </li>
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+	          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+	            <i class="fa fa-fw fa-wrench"></i>
+	            <span class="nav-link-text">Help</span>
+	          </a>
+	          <ul class="sidenav-second-level collapse" id="collapseComponents">
+	            <li>
+	              <a href="navbar.html">FAQ</a>
+	            </li>
+	            <li>
+	              <a href="cards.html">Contacts</a>
+	            </li>
+	          </ul>
+	        </li>
+	      </ul>
+	      <ul class="navbar-nav sidenav-toggler">
+	        <li class="nav-item">
+	          <a class="nav-link text-center" id="sidenavToggler">
+	            <i class="fa fa-fw fa-angle-left"></i>
+	          </a>
+	        </li>
+	      </ul>
+	      <ul class="navbar-nav ml-auto">
+	        <li class="nav-item">
+	        <% if user_signed_in? %>
+	          <% if current_user.present? && (current_user.has_role? "super_admin") %>
+                <%= link_to "Welcome Owner! ", class: "nav-link" %>
+            <% elsif current_user.present? && (current_user.has_role? "admin") %>
+                <%= link_to "Welcome Admin! ", class: "nav-link" %>
+            <% end %>
+          <% end %>
+	        </li>
+	        <li class="nav-item">
+	        	<% if user_signed_in? %>
+                <%= link_to '<i class="fa fa-fw fa-sign-out"></i>Logout'.html_safe, destroy_user_session_path, method: :get, class: "nav-link"%>
+            <% else %>
+                <%= link_to '<i class="fa fa-fw fa-sign-in"></i>Sign in'.html_safe, new_user_session_path, class: "nav-link" %>
+            <% end %>
+	        </li>
+	      </ul>
+	    </div>
+	  </nav>
+	  <div class="content-wrapper">
+    	<div class="container-fluid">
+    		<ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">My Dashboard</li>
+      </ol>
+      	<% flash.each do |name, msg| %>
+			    <%= content_tag :div, msg, class: "alert alert-info" %>
+			  <% end %>
+    		<%= yield %>
+    		<% #cls = [{:status=> ["created", "no_change", "updated"], :prefered_term => "test term", :notation => "This is test notation" }]
+					# results = [{:results =>"test", :date => "22/08/2017"}]
+
+					# @html = CdiscChangesReport.new.create(results, cls, current_user) if current_user.present?
+					# render pdf: "cdisc_changes.pdf", page_size: 5, orientation: 'Landscape'
+    		%>
+    		<%#= @html %>
+    		<%#= CdiscChangesReport.new.create(results, cls, current_user) %>
+    	</div>		
+    </div>
+ 
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright © Universal Bucket (<%= Time.current.year %>)</small>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
