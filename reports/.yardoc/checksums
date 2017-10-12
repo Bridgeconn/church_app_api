@@ -1,0 +1,4 @@
+lib/reports.rb 4a696aee6c1bbe02a360c9f52969d102dd85f57a
+lib/reports/engine.rb b1449449ede6d2a22b4024e11f407f8160ec492e
+lib/reports/wicked_core.rb 5a42331a9cf1c4cd804faa7458e41a087aefb719
+lib/reports/cdisc_changes_report.rb d78d04c0c4a9509f4fc1d3b628ef9bc57262e59f

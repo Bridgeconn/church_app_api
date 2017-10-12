@@ -1,0 +1,2 @@
+module ChurchAppsHelper
+end
