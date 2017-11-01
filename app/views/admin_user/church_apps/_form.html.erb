@@ -1,0 +1,40 @@
+<%= form_for([current_user, church_app]) do |f| %>
+  <% if church_app.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(church_app.errors.count, "error") %> prohibited this church_app from being saved:</h2>
+
+      <ul>
+      <% church_app.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :address1 %>
+    <%= f.text_field :address1 %>
+  </div>
+  <div class="field">
+    <%= f.label :address2 %>
+    <%= f.text_field :address2 %>
+  </div>
+  <div class="field">
+    <%= f.label :phone %>
+    <%= f.text_field :phone %>
+  </div>
+  <div class="field">
+    <%= f.label :phone2 %>
+    <%= f.text_field :phone2 %>
+  </div>
+  
+  <%= f.text_field :church_app_id %>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
