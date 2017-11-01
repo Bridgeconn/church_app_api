@@ -1,0 +1,24 @@
+<div class="table-responsive">
+  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Name</th>
+        <th colspan="2">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+     <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.approved.present? ? "Approved" : "Pending" %></td>
+        <td><%= fullname(user.id) %></td>
+        <td><%= link_to 'Show', admin_user_user_path(user) %> | <%= link_to 'Edit', edit_admin_user_user_path(user) %> | <%= link_to 'Destroy', admin_user_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'PDF Report', html_test_path+"?format=pdf", class: "btn btn-primary", target: "_" %>
+</div>
+
