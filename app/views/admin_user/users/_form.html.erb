@@ -4,7 +4,7 @@
     <div class="card-body">
       <%= form_for([:admin_user, @user]) do |f| %>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6" style="border: 1px solid rgba(0, 128, 255, 0.9) !important;">
             <h3>Admin Details</h3>
             <div class="form-group">
               <div class="form-row">
@@ -38,9 +38,9 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" style="border: 1px solid rgba(0, 128, 255, 0.9) !important;">
             <h3>Church Details</h3>
-            <%= f.fields_for :church_app, @user.church_app do |church_app_form| %>
+            <%= f.fields_for :church_app do |church_app_form| %>
               <div class="form-group">
                 <%= church_app_form.label :name %><br />
                 <%= church_app_form.text_field :name, class: "form-control" %>
@@ -49,14 +49,13 @@
                 <%= church_app_form.label :address1, "Address 1" %><br />
                 <%= church_app_form.text_field :address1, class: "form-control" %>
               </div>
-               <div class="form-group">
+              <div class="form-group">
                 <%= church_app_form.label :address3, "Address 2" %><br />
                 <%= church_app_form.text_field :address3, class: "form-control" %>
               </div>
             <% end %>
-             
           </div>     
-          <%= f.submit "Register", class: "btn btn-primary btn-block" %>
+          <%= f.submit "Register", class: "btn btn-primary btn-block", style: "margin-top: 5px;" %>
         </div>
       <% end %>
     </div>
