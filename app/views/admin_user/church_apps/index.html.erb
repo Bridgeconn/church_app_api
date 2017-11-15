@@ -1,25 +1,32 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="card mx-auto mt-5">
+    <div class="card-header">Registered Church List</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Church Id</th>
+            <th>Church Admin</th>
+            <th colspan="2">Action</th>
+          </tr>
+        </thead>
 
-<h1>Church Apps</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @church_apps.each do |church_app| %>
-      <tr>
-        <td><%#= link_to 'Show', user_church_app_path(current_user.id) %></td>
-        <td><%#= link_to 'Edit', edit_user_church_app_path(church_app) %></td>
-        <td><%#= link_to 'Destroy', user_church_app_path, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Church App', new_admin_user_user_church_app_path(current_user) %>
+        <tbody>
+          <% @church_apps.each do |church_app| %>
+            <tr>
+              <td><%= church_app.name %></td>
+              <td><%= address_combine(church_app.id)%></td>
+              <td><%= church_app.church_app_id %></td>
+              <td><%= fullname(church_app.user.id) %></td>
+              <td><%= link_to 'Show', admin_user_user_church_app_path(church_app.user.id, church_app) %> | <%= link_to 'Edit', edit_admin_user_user_church_app_path(church_app.user.id, church_app) %> | <%= link_to 'Destroy', admin_user_user_church_app_path(church_app.user.id, church_app), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+          <% end %>
+        </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
