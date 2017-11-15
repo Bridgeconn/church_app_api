@@ -16,6 +16,7 @@ class AdminUser::UsersController < ApplicationController
 
 	def new
 		@user = User.new
+		@user.build_church_app
 	end
 
 	def edit
