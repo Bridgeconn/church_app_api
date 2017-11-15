@@ -16,20 +16,10 @@ class AdminUser::ChurchAppsController < ApplicationController
   def edit
   end
 
-  # def html_test
-  #   cls = [{:status=> ["created", "no_change", "updated"], :prefered_term => "test term", :notation => "This is test notation" }]
-  #   results = [{:results =>"test", :date => "22/08/2017"}]
-  #   @html = CdiscChangesReport.new.create(results, cls, current_user)
-  #   respond_to do |format|
-  #     format.pdf do
-  #       @html = @html
-  #       render pdf: "cdisc_changes.pdf", page_size: 'A4', orientation: 'Landscape'
-  #     end
-  #   end
-  # end
-
   def create
+    # raise params.inspect
     @church_app = current_user.build_church_app(church_app_params)
+    @church_app.church_app_id = church_id_generate
     respond_to do |format|
       if @church_app.save
         format.html { redirect_to @church_app, notice: 'Church app was successfully created.' }
@@ -40,6 +30,7 @@ class AdminUser::ChurchAppsController < ApplicationController
       end
     end
   end
+
 
   def update
     respond_to do |format|
@@ -56,7 +47,7 @@ class AdminUser::ChurchAppsController < ApplicationController
   def destroy
     @church_app.destroy
     respond_to do |format|
-      format.html { redirect_to church_apps_url, notice: 'Church app was successfully destroyed.' }
+      format.html { redirect_to admin_user_user_church_apps_path, notice: 'Church app was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
