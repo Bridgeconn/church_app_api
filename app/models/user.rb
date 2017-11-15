@@ -5,8 +5,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_one :church_app, inverse_of: :user
-  accepts_nested_attributes_for :church_app, reject_if: proc { |attributes| attributes[:id].blank? }, allow_destroy: true
+  has_one :church_app, inverse_of: :user, autosave: true
+  accepts_nested_attributes_for :church_app, allow_destroy: true
 
   has_one :picture, class_name: 'Picture', as: :imageable, dependent: :destroy
 
