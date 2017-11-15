@@ -16,7 +16,7 @@ class AdminUser::UsersController < ApplicationController
 
 	def new
 		@user = User.new
-		@user.build_church_app
+		@church_app = @user.build_church_app
 	end
 
 	def edit
@@ -24,11 +24,12 @@ class AdminUser::UsersController < ApplicationController
 
 	def create
 		@user = User.new(user_params)
-		# raise @user.inspect
 		respond_to do |format|
 			if @user.save
-				@user.add_role :admin
-				format.html { redirect_to admin_user_users_path, notice: 'Admin was successfully created.' }
+				if current_user.has_role? :super_admin
+					@user.add_role :admin
+				end
+				format.html { redirect_to admin_user_users_path, notice: 'Admin  and their Church was successfully created.' }
 				format.json { render :show, status: :created, location: @user }
 			else
 				format.html { render :new }
@@ -50,9 +51,10 @@ class AdminUser::UsersController < ApplicationController
 	end
 
 	def destroy
+		@user = User.find(params[:id])
 		@user.destroy
 		respond_to do |format|
-			format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+			format.html { redirect_to admin_user_users_path, notice: 'User was successfully destroyed.' }
 			format.json { head :no_content }
 		end
 	end
@@ -65,7 +67,7 @@ class AdminUser::UsersController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def user_params
-		params.require(:user).permit(:email,:first_name,:last_name,:password,:password_confirmation, church_app_attributes: [:id, :name, :_destroy])
+		params.require(:user).permit(:email,:first_name,:last_name,:password,:password_confirmation, church_app_attributes: [:name, :church_app_id, :address1, :address3, :_destroy])
 	end
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def update_user_params
