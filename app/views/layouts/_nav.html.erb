@@ -1,0 +1,94 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="#">Universal Bucket</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+	      	<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+	          <%= link_to authenticated_root_path, class: 'nav-link' do %>
+	        		<i class='fa fa-fw fa-dashboard'></i>
+	        		<%= content_tag :span, "Dashboard", :class => "nav-link-text" %>
+						<% end %>
+	        </li>
+	      <% if user_signed_in? && (current_user.has_role? :super_admin) %>
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+	        	<%= link_to new_admin_user_user_path, class: 'nav-link' do %>
+	        		<i class='fa fa-fw fa-plus'></i>
+	        		<%= content_tag :span, "Add Admin", :class => "nav-link-text" %>
+						<% end %>
+	        </li>
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+	        	<%= link_to admin_user_user_church_apps_path(current_user), class: 'nav-link' do %>
+	        		<i class="fa fa-fw fa-table"></i>
+	        		<%= content_tag :span, "Churches", :class => "nav-link-text" %>
+						<% end %>
+	        </li>
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+	        	<%= link_to admin_user_users_path, class: 'nav-link' do %>
+	        		<i class="fa fa-fw fa-table"></i>
+	        		<%= content_tag :span, "Admin Users", :class => "nav-link-text" %>
+						<% end %>
+	        </li>
+	      <% elsif user_signed_in? && (current_user.has_role? :admin) %>
+	      	<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+	        	<%= link_to admin_user_users_path, class: 'nav-link' do %>
+	        		<i class="fa fa-fw fa-table"></i>
+	        		<%= content_tag :span, "Members", :class => "nav-link-text" %>
+						<% end %>
+	        </li>
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+	        	<%= link_to events_path, class: 'nav-link' do %>
+	        		<i class="fa fa-fw fa-table"></i>
+	        		<%= content_tag :span, "Events", :class => "nav-link-text" %>
+						<% end %>
+	        </li>
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+	        	<%= link_to new_event_path, class: 'nav-link' do %>
+	        		<i class="fa fa-fw fa-table"></i>
+	        		<%= content_tag :span, "New Event", :class => "nav-link-text" %>
+						<% end %>
+	        </li>
+	      <% end %>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">Help</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+              <a href="navbar.html">FAQ</a>
+            </li>
+            <li>
+              <a href="cards.html">Contacts</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+        <% if user_signed_in? %>
+          <% if current_user.present? && (current_user.has_role? "super_admin") %>
+            <%= link_to "Welcome Owner! ", class: "nav-link" %>
+        <% elsif current_user.present? && (current_user.has_role? "admin") %>
+            <%= link_to "Welcome Admin! ", class: "nav-link" %>
+        <% end %>
+      <% end %>
+        </li>
+        <li class="nav-item">
+        	<% if user_signed_in? %>
+            <%= link_to '<i class="fa fa-fw fa-sign-out"></i>Logout'.html_safe, destroy_user_session_path, method: :get, class: "nav-link"%>
+        <% else %>
+            <%= link_to '<i class="fa fa-fw fa-sign-in"></i>Sign in'.html_safe, new_user_session_path, class: "nav-link" %>
+        <% end %>
+        </li>
+      </ul>
+    </div>
+  </nav>
