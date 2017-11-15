@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    if current_user.present? && (current_user.curch_apps.size > 0)
+    if current_user.present? #&& (current_user.curch_apps.size > 0)
       @events = Event.all
     else
       @events = nil

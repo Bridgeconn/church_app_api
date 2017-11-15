@@ -1,6 +1,6 @@
 class AdminUser::ChurchAppsController < ApplicationController
   before_action :set_church_app, only: [:show, :edit, :update, :destroy]
-  before_filter :redirect_unless_admin, except: [:index, :show]
+  before_action :redirect_unless_admin, except: [:index, :show]
 
   def index
     @church_apps = ChurchApp.all

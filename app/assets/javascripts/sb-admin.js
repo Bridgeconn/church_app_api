@@ -1,4 +1,4 @@
-(function($) {
+$(function($) {
   "use strict"; // Start of use strict
   // Configure tooltips for collapsed side navigation
   $('.navbar-sidenav [data-toggle="tooltip"]').tooltip({
@@ -42,4 +42,4 @@
     }, 1000, 'easeInOutExpo');
     event.preventDefault();
   });
-})(jQuery); // End of use strict
+}); // End of use strict

@@ -7,11 +7,11 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.2'
+gem 'rails', '~> 5.1.4'
 
-gem 'reports', path: "./reports"
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
+#gem 'reports', path: "./reports"
+#gem 'wicked_pdf'
+#gem 'wkhtmltopdf-binary'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
@@ -34,6 +34,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+
+gem 'nokogiri', '~> 1.6', '>= 1.6.7'
 
 
 
@@ -71,4 +73,4 @@ gem 'rolify', '~> 5.1'
 gem 'carrierwave', '~> 1.0'
 gem "mini_magick"
 
-# ruby-2.2.3
+#ruby 2.2.3

@@ -1,6 +1,8 @@
 class WickedCore
 
 	C_CLASS_NAME = "WickedCore"
+	C_FIRST_PAGE = 5
+	C_PER_PAGE = 9
 
 	def initialize
 		@html = ""
@@ -13,11 +15,11 @@ class WickedCore
 	# @param managed_item [Hash] Managed item. Can be empty
 	# @param user [Object] The user creating the report
 	# @return [Null]
-	def open(doc_type, title, history, user)
-		# byebug
+	def open(results, cls,doc_type, title, history, user)
 		@paper_size = 5 #user.paper_size
 		@html = page_header
 		@html += WickedCore.new.title_page(doc_type, title, user)
+		@html += WickedCore.new.body(results, cls)
 		@html += WickedCore.new.history_page(history) if !history.empty?
 	end
 
@@ -65,6 +67,80 @@ class WickedCore
 		return @html
 	end
 
+	def body(results, cls)
+
+		@html = ""
+		
+		@html += "<h3>Conventions</h3>"
+		@html += "<p>In the following table for a code list entry:<ul><li><p>C = Code List was created in the CDISC Terminology</p></li>"
+		@html += "<li><p>U = Code List was updated in some way</p></li>"
+		@html += "<li><p>'-' = There was no change to the Code List</p></li>"
+		@html += "<li><p>X = The Code List was deleted from teh CDISC Terminology</p></li></ul></p>"
+		index = 0
+		page_count = C_FIRST_PAGE
+		# cls.each do |cl, key|
+		# 	if index % page_count == 0
+		# 		if index == 0
+		# 			@html += "<h3>Changes</h3>"
+		# 		else
+		# 			@html += "</tbody></table>"
+		# 			# @report.add_to_body(@html)
+		# 			# @report.add_page_break
+		# 			page_count = C_PER_PAGE
+		# 			@html = ""
+		# 			index = 1
+		# 		end
+		# 		@html += "<table class=\"table table-striped table-bordered table-condensed\"><thead>"
+		# 		@html += "<th>Identifier</th>"
+		# 		@html += "<th>Label</th>"
+		# 		@html += "<th>Submission Value</th>"
+		# 		results.each do |result|
+		# 			# raise result[:date].inspect
+		# 			# r = result[:results]
+
+		# 			@html += "<th>" + result + "</th>"
+		# 		end
+		# 		@html += "</tr></thead><tbody>"
+		# 	end
+		# 	s = cl[:status]
+		# 	@html += "<tr>"
+		# 	@html += "<td>#{key}</td>"
+		# 	@html += "<td>#{cl[:preferred_term]}</td>"
+		# 	@html += "<td>#{cl[:notation]}</td>"
+		# 	s.each do |status|
+		# 		if status == :created
+		# 			@html += "<td>C</td>"
+		# 		elsif status == :no_change
+		# 			@html += "<td>-</td>"
+		# 		elsif status == :updated
+		# 			@html += "<td>U</td>"
+		# 		elsif status == :deleted
+		# 			@html += "<td>X</td>"
+		# 		elsif status == :not_present
+		# 			@html += "<td>&nbsp;</td>"
+		# 		else
+		# 			@html += "<td>[#{status}]></td>"
+		# 		end
+		# 	end
+		# 	@html += "</tr>"
+		# 	index += 1
+		# end
+
+		@html += '<div class="table-responsive">'
+  	@html += '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">'
+    @html += '<thead><tr><th>Email</th><th>Status</th><th>Name</th></tr></thead>'
+    @html +=  '<tbody>'
+     results.each do |user|
+	    @html +=    '<tr>'
+	    @html +=      "<td>#{user.email}</td>"
+	    @html +=      "<td>#{user.approved.present? ? 'Approved' : 'Pending'}</td>"
+	    @html +=      "<td>#{user.first_name}</td>"
+	    @html +=    '</tr>'
+    end
+    @html +=  '</tbody></table></div>'
+		@html
+	end
+
 
 
 	def page_header
@@ -79,7 +155,6 @@ class WickedCore
 	end
 
 	def title_page(doc_type, title,  user)
-		# byebug
 		html = ""
 		#title = ""
 		#name = APP_CONFIG['organization_title']

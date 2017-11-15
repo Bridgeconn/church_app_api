@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   def redirect_unless_admin
     unless current_user.has_role? :admin
       flash[:error] = "Only admins can do that"
-      redirect_to root_path
+      redirect_to unauthenticated_root_path
     end
   end
 end

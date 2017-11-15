@@ -16,30 +16,51 @@
 	    </button>
 	    <div class="collapse navbar-collapse" id="navbarResponsive">
 	      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-	      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-	          <a class="nav-link" href="#">
-	            <i class="fa fa-fw fa-dashboard"></i>
-	            <span class="nav-link-text">Dashboard</span>
-	          </a>
-	        </li>
-	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-	          <a class="nav-link" href="#">
-	            <i class="fa fa-fw fa-plus"></i>
-	            <span class="nav-link-text">Add Admin</span>
-	          </a>
-	        </li>
-	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-	          <a class="nav-link" href="#">
-	            <i class="fa fa-fw fa-table"></i>
-	            <span class="nav-link-text">Church List</span>
-	          </a>
-	        </li>
-	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-	          <a class="nav-link" href="#">
-	            <i class="fa fa-fw fa-table"></i>
-	            <span class="nav-link-text">Admin List</span>
-	          </a>
-	        </li>
+		      	<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+		          <%= link_to authenticated_root_path, class: 'nav-link' do %>
+		        		<i class='fa fa-fw fa-dashboard'></i>
+		        		<%= content_tag :span, "Dashboard", :class => "nav-link-text" %>
+							<% end %>
+		        </li>
+		      <% if user_signed_in? && (current_user.has_role? :super_admin) %>
+		        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+		        	<%= link_to new_admin_user_user_path, class: 'nav-link' do %>
+		        		<i class='fa fa-fw fa-plus'></i>
+		        		<%= content_tag :span, "Add Admin", :class => "nav-link-text" %>
+							<% end %>
+		        </li>
+		        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+		        	<%= link_to admin_user_user_church_apps_path(current_user), class: 'nav-link' do %>
+		        		<i class="fa fa-fw fa-table"></i>
+		        		<%= content_tag :span, "Churches", :class => "nav-link-text" %>
+							<% end %>
+		        </li>
+		        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+		        	<%= link_to new_admin_user_user_path, class: 'nav-link' do %>
+		        		<i class="fa fa-fw fa-table"></i>
+		        		<%= content_tag :span, "Admin Users", :class => "nav-link-text" %>
+							<% end %>
+		        </li>
+		      <% elsif user_signed_in? && (current_user.has_role? :admin) %>
+		      	<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+		        	<%= link_to admin_user_users_path, class: 'nav-link' do %>
+		        		<i class="fa fa-fw fa-table"></i>
+		        		<%= content_tag :span, "Members", :class => "nav-link-text" %>
+							<% end %>
+		        </li>
+		        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+		        	<%= link_to events_path, class: 'nav-link' do %>
+		        		<i class="fa fa-fw fa-table"></i>
+		        		<%= content_tag :span, "Events", :class => "nav-link-text" %>
+							<% end %>
+		        </li>
+		        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+		        	<%= link_to new_event_path, class: 'nav-link' do %>
+		        		<i class="fa fa-fw fa-table"></i>
+		        		<%= content_tag :span, "New Event", :class => "nav-link-text" %>
+							<% end %>
+		        </li>
+		      <% end %>
 	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
 	          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
 	            <i class="fa fa-fw fa-wrench"></i>
@@ -85,11 +106,11 @@
 	  <div class="content-wrapper">
     	<div class="container-fluid">
     		<ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">My Dashboard</li>
-      </ol>
+	        <li class="breadcrumb-item">
+	          <a href="#"></a>
+	        </li>
+	        <!-- <li class="breadcrumb-item active"></li> -->
+	      </ol>
       	<% flash.each do |name, msg| %>
 			    <%= content_tag :div, msg, class: "alert alert-info" %>
 			  <% end %>

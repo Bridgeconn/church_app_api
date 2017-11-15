@@ -10,7 +10,28 @@
       </ul>
     </div>
   <% end %>
-  <%= f.text_field :name %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :address1 %>
+    <%= f.text_field :address1 %>
+  </div>
+  <div class="field">
+    <%= f.label :address2 %>
+    <%= f.text_field :address2 %>
+  </div>
+  <div class="field">
+    <%= f.label :phone %>
+    <%= f.text_field :phone %>
+  </div>
+  <div class="field">
+    <%= f.label :phone2 %>
+    <%= f.text_field :phone2 %>
+  </div>
+  
   <%= f.text_field :church_app_id %>
   
   <div class="actions">

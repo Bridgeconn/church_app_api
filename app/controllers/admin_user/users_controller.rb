@@ -1,38 +1,33 @@
 class AdminUser::UsersController < ApplicationController
-	before_action :set_user, only: [:show, :edit, :update, :destroy]
+	# before_action :set_user, only: [:show, :edit, :update, :destroy]
+	# before_action :update_user_params, only: [:update]
+	# before_action :redirect_unless_admin, except: [:index, :show]
 
-	# GET /users
-	# GET /users.json
 	def index
-		if params[:approved] == "false"
-			@users = User.where(approved: false)
+		if (current_user.has_role? :super_admin)
+			@users = User.with_role :admin
 		else
-			@users = User.all
+			@users = User.with_role :member
 		end
 	end
 
-	# GET /users/1
-	# GET /users/1.json
 	def show
 	end
 
-	# GET /users/new
 	def new
 		@user = User.new
 	end
 
-	# GET /users/1/edit
 	def edit
 	end
 
-	# POST /users
-	# POST /users.json
 	def create
 		@user = User.new(user_params)
-
+		# raise @user.inspect
 		respond_to do |format|
 			if @user.save
-				format.html { redirect_to @user, notice: 'Admin was successfully created.' }
+				@user.add_role :admin
+				format.html { redirect_to admin_user_users_path, notice: 'Admin was successfully created.' }
 				format.json { render :show, status: :created, location: @user }
 			else
 				format.html { render :new }
@@ -41,12 +36,10 @@ class AdminUser::UsersController < ApplicationController
 		end
 	end
 
-	# PATCH/PUT /users/1
-	# PATCH/PUT /users/1.json
 	def update
 		respond_to do |format|
 			if @user.update(user_params)
-				format.html { redirect_to @user, notice: 'User was successfully updated.' }
+				format.html { redirect_to @user, notice: 'admin was successfully updated.' }
 				format.json { render :show, status: :ok, location: @user }
 			else
 				format.html { render :edit }
@@ -55,8 +48,6 @@ class AdminUser::UsersController < ApplicationController
 		end
 	end
 
-	# DELETE /users/1
-	# DELETE /users/1.json
 	def destroy
 		@user.destroy
 		respond_to do |format|
@@ -73,7 +64,10 @@ class AdminUser::UsersController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def user_params
-		params.require(:user).permit(:email, :password,:password_confirmation)
-		# {:email => params[:email], :roles => "admin", :password => params[:password], :password_confirmation => params[:password_confirmation] }
+		params.require(:user).permit(:email,:first_name,:last_name,:password,:password_confirmation, church_app_attributes: [:id, :name, :_destroy])
+	end
+	# Never trust parameters from the scary internet, only allow the white list through.
+	def update_user_params
+		params.require(:user).permit(:email,:first_name,:last_name)
 	end
 end

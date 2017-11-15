@@ -11,10 +11,11 @@ class CdiscChangesReport
 	# @param user [User] the user
 	# @return [String] the HTML
 	def create(results, cls, user)
-		# byebug
 		@report = WickedCore.new
-		@report.open("CDISC Terminology Change Report", "", [], user)
-		CdiscChangesReport.new.body(results, cls)
+		@report.open(results, cls,"CDISC Terminology Change Report", "", [], user)
+		# raise @report.inspect 
+		# @test = CdiscChangesReport.new.body(results, cls)
+		# raise @test.html_sa.inspect
 		@report.close
 		return @report.html
 	end
@@ -32,8 +33,9 @@ class CdiscChangesReport
 
 	def body(results, cls)
 		@report = WickedCore.new
-		# byebug
+
 		html = ""
+		html += results 
 		html += "<h3>Conventions</h3>"
 		html += "<p>In the following table for a code list entry:<ul><li><p>C = Code List was created in the CDISC Terminology</p></li>"
 		html += "<li><p>U = Code List was updated in some way</p></li>"

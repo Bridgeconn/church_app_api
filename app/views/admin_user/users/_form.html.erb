@@ -1,37 +1,64 @@
-<%= form_for([:admin_user, @user]) do |f| %>
-  <% if user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-      <% user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+<div class="container">
+  <div class="card mx-auto mt-5">
+    <div class="card-header">Add New Admin</div>
+    <div class="card-body">
+      <%= form_for([:admin_user, @user]) do |f| %>
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Admin Details</h3>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <%= f.label :first_name %>
+                  <%= f.text_field :first_name, class: "form-control", id: "exampleInputName", placeholder: "Enter first name" %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.label :last_name %>
+                  <%= f.text_field :last_name, class: "form-control", id: "exampleInputName", placeholder: "Enter last name" %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <%= f.label :email %>
+              <%= f.text_field :email, class: "form-control", id: "exampleInputEmail1", placeholder: "Enter email" %>
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <%= f.label :password %>
+                  <% if @minimum_password_length %>
+                  <em>(<%= @minimum_password_length %> characters minimum)</em>
+                  <% end %><br />
+                  <%= f.password_field :password, autocomplete: "off", class: "form-control", id: "exampleInputPassword1", placeholder: "Password" %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.label :password_confirmation %><br />
+                  <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", id: "exampleConfirmPassword", placeholder: "Confirm password" %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h3>Church Details</h3>
+            <%= f.fields_for :church_app, @user.church_app do |church_app_form| %>
+              <div class="form-group">
+                <%= church_app_form.label :name %><br />
+                <%= church_app_form.text_field :name, class: "form-control" %>
+              </div>
+              <div class="form-group">
+                <%= church_app_form.label :address1, "Address 1" %><br />
+                <%= church_app_form.text_field :address1, class: "form-control" %>
+              </div>
+               <div class="form-group">
+                <%= church_app_form.label :address3, "Address 2" %><br />
+                <%= church_app_form.text_field :address3, class: "form-control" %>
+              </div>
+            <% end %>
+             
+          </div>     
+          <%= f.submit "Register", class: "btn btn-primary btn-block" %>
+        </div>
       <% end %>
-      </ul>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.text_field :email %>
   </div>
-
-  <div class="field">
-    <%= f.label :approved %>
-    <%= f.check_box :approved %>
-  </div>
-
-  <div class="field">
-    <%= f.label :first_name %>
-    <%= f.text_field :first_name %>
-  </div>
-
-  <div class="field">
-    <%= f.label :last_name %>
-    <%= f.text_field :last_name %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

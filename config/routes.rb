@@ -21,12 +21,19 @@ Rails.application.routes.draw do
 	end
 
 	namespace :admin_user do
-		resources :users do
+		resources :users
+	end
+
+	namespace :admin_user do
+		resources :users, only: [] do
 			resources :church_apps
 		end
 	end
+	
+	resources :church_apps, only: [] do
+		resources :events
+	end
 
-
-	# get '/html_test' => 'church_apps#html_test'
+	get '/html_test' => 'admin_user/users#html_test'
 
 end
