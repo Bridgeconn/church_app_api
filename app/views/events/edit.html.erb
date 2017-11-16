@@ -1,6 +1,5 @@
-<h1>Editing Event</h1>
 
 <%= render 'form', event: @event %>
 
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %>
+<%= link_to 'Show', church_app_event(@church_app, @event) %> |
+<%= link_to 'Back', church_app_events_path(@church_app) %>

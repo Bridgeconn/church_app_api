@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    if current_user.present? #&& (current_user.curch_apps.size > 0)
+    if current_user.present? && (current_user.has_role? :admin) #&& (current_user.curch_apps.size > 0)
       @events = Event.all
     else
       @events = nil
@@ -18,7 +18,8 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = Event.new
+    @church_app = current_user.church_app
+    @event = @church_app.events.new
   end
 
   # GET /events/1/edit
@@ -28,7 +29,8 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(event_params)
+    raise params.inspect
+    @event = current_user.church_app.build_events(event_params)
 
     respond_to do |format|
       if @event.save
@@ -73,6 +75,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.fetch(:event).permit(:event_name, :event_venue_name, :event_time_end, :event_speaker)
+      params.fetch(:event).permit(:event_name, :church_app_id, :event_venue_name, :event_start_time, :event_end_time, :event_speaker, {event_avatars: []})
     end
 end

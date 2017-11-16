@@ -38,13 +38,13 @@
 						<% end %>
 	        </li>
 	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-	        	<%= link_to events_path, class: 'nav-link' do %>
+	        	<%= link_to church_app_events_path(current_user.church_app.id), class: 'nav-link' do %>
 	        		<i class="fa fa-fw fa-table"></i>
 	        		<%= content_tag :span, "Events", :class => "nav-link-text" %>
 						<% end %>
 	        </li>
 	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-	        	<%= link_to new_event_path, class: 'nav-link' do %>
+	        	<%= link_to new_church_app_event_path(current_user.church_app.id), class: 'nav-link' do %>
 	        		<i class="fa fa-fw fa-table"></i>
 	        		<%= content_tag :span, "New Event", :class => "nav-link-text" %>
 						<% end %>

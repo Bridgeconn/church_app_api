@@ -1,23 +1,74 @@
-<%= form_for(event) do |f| %>
-  <% if event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+<div class="container">
+  <div class="card mx-auto mt-12">
+    <div class="card-header"><%= @event.persisted? ? "Edit Event" : "Add Event"%></div>
+    <div class="card-body">
+      <%= form_for([@church_app, @event]) do |f| %>
+        <div class="row">
+          <% if event.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
 
-      <ul>
-      <% event.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+              <ul>
+              <% event.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <%= f.label :event_name, "Event Name" %>
+                  <%= f.text_field :event_name, class: "form-control", id: "exampleInputName", placeholder: "Enter Event Name" %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.label :event_speaker, "Speaker Name" %>
+                  <%= f.text_field :event_speaker, class: "form-control", id: "exampleInputSpeaker", placeholder: "Enter Speaker Name" %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <%#= f.label :event_start_time, "Start Time" %>
+                  <%#= f.text_field :event_start_time, class: "form-control", id: "exampleInputEndTime", placeholder: "Enter Event Start Time" %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.label :event_end_time, "End Time" %>
+                  <%= f.text_field :event_end_time, class: "form-control", id: "exampleInputEndTime", placeholder: "Enter Event End Time" %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <%= f.label :event_venue_name, "Venue Address" %>
+                  <%= f.text_field :event_venue_name, class: "form-control", id: "exampleInputVanueName", placeholder: "Enter Venue Name" %>
+                </div>
+                
+                <div class="col-md-6">
+                  <%= f.label :event_avatars, "Picture" %>
+                  <%= f.file_field :event_avatars, multiple: true, class: "form-control" %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <div class="col-md-12">
+              <%= f.submit "Create Event", class: "btn btn-block btn-primary" %> <%#= link_to 'Back', church_app_events_path(@church_app), class: "btn btn-block btn-default" %>
+            </div>
+          </div>
+        </div>
       <% end %>
-      </ul>
     </div>
-  <% end %>
-
-  <%= f.text_field :event_name %>
-  <%= f.text_field :event_venue_name %>
-  <%= f.text_field :event_speaker %>
-  <%= f.text_field :event_time_end %>
-  <%= f.file_field :picture %>
-
-  <div class="actions">
-    <%= f.submit %>
   </div>
-<% end %>
+</div>
