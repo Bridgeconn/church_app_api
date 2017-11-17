@@ -28,7 +28,7 @@ Gemfile.lock
 /test/tmp/
 /test/version_tmp/
 /tmp/
-
+config/database.*
 # Used by dotenv library to load environment variables.
 # .env
 
