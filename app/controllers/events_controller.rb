@@ -1,8 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
-  # GET /events
-  # GET /events.json
+
   def index
     if current_user.present? && (current_user.has_role? :admin) #&& (current_user.curch_apps.size > 0)
       @events = Event.all
@@ -11,30 +10,23 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/1
-  # GET /events/1.json
   def show
+  
   end
 
-  # GET /events/new
   def new
     @church_app = current_user.church_app
     @event = @church_app.events.new
   end
 
-  # GET /events/1/edit
   def edit
   end
 
-  # POST /events
-  # POST /events.json
   def create
-    raise params.inspect
-    @event = current_user.church_app.build_events(event_params)
-
+    @event = current_user.church_app.events.new(event_params)
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+        format.html { redirect_to church_app_events_path, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -43,12 +35,10 @@ class EventsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /events/1
-  # PATCH/PUT /events/1.json
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+        format.html { redirect_to church_app_events_path, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
@@ -57,24 +47,23 @@ class EventsController < ApplicationController
     end
   end
 
-  # DELETE /events/1
-  # DELETE /events/1.json
   def destroy
     @event.destroy
     respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html { redirect_to church_appp_events_path, notice: 'Event was successfully destroyed.' }
+      format.json { head :no_content, deleted_from: "#{@church_app}", deleted: "#{@event}" }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
-      @event = Event.find(params[:id])
+      @church_app = current_user.church_app
+      @event = @church_app.events.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.fetch(:event).permit(:event_name, :church_app_id, :event_venue_name, :event_start_time, :event_end_time, :event_speaker, {event_avatars: []})
+      params.fetch(:event).permit(:event_name, :church_app_id, :event_venue_name, :event_start_time, :event_end_time, :event_speaker, {event_avtars: []})
     end
 end
