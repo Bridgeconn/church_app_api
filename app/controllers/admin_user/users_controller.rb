@@ -1,5 +1,5 @@
 class AdminUser::UsersController < ApplicationController
-	# before_action :set_user, only: [:show, :edit, :update, :destroy]
+	before_action :set_user, only: [:show, :edit, :update, :destroy]
 	# before_action :update_user_params, only: [:update]
 	# before_action :redirect_unless_admin, except: [:index, :show]
 
@@ -12,6 +12,7 @@ class AdminUser::UsersController < ApplicationController
 	end
 
 	def show
+		
 	end
 
 	def new
@@ -63,6 +64,7 @@ class AdminUser::UsersController < ApplicationController
 	# Use callbacks to share common setup or constraints between actions.
 	def set_user
 		@user = User.find(params[:id])
+		@church_app = @user.church_app
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.
