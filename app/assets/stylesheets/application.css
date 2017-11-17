@@ -14,7 +14,7 @@
 	*= require font-awesome
 	*= require dataTables.bootstrap4
 	*= require sb-admin
-	*= require bootstrap-datetimepicker
+	*= require jquery.datetimepicker
  * require_tree .
  * require_self
  */
