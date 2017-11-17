@@ -7,7 +7,6 @@
           <% if event.errors.any? %>
             <div id="error_explanation">
               <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
-
               <ul>
               <% event.errors.full_messages.each do |message| %>
                 <li><%= message %></li>
@@ -29,22 +28,14 @@
               </div>
             </div>
             <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="fa fa-calendar"></span>
-                    </span>
-                </div>
-            </div>
-            <div class="form-group">
               <div class="form-row">
                 <div class="col-md-6">
-                  <%#= f.label :event_start_time, "Start Time" %>
-                  <%#= f.text_field :event_start_time, class: "form-control", id: "exampleInputEndTime", placeholder: "Enter Event Start Time" %>
+                  <%= f.label :event_start_time, "Start Time" %>
+                  <%= f.text_field :event_start_time, class: "form-control", id: "datetimepicker1", placeholder: "Enter Event Start Time" %>
                 </div>
                 <div class="col-md-6">
                   <%= f.label :event_end_time, "End Time" %>
-                  <%= f.text_field :event_end_time, class: "form-control", id: "exampleInputEndTime", placeholder: "Enter Event End Time" %>
+                  <%= f.text_field :event_end_time, class: "form-control", id: "datetimepicker2", placeholder: "Enter Event End Time" %>
                 </div>
               </div>
             </div>
