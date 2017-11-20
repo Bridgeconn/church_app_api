@@ -17,7 +17,6 @@ class AdminUser::ChurchAppsController < ApplicationController
   end
 
   def create
-    # raise params.inspect
     @church_app = current_user.build_church_app(church_app_params)
     @church_app.church_app_id = church_id_generate
     respond_to do |format|
