@@ -12,7 +12,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 				user.add_role :member
 				user.member_belongs_to_admin = @admin_user.id
 				if user.save
-					render :json=> {:auth_token=>user.auth_token, :email=>user.email, :church=>@churchApp, :admin=>@admin_user, :status=>201}
+					render :json=> {:success =>true, :message => "Thanks for signup, Church Admin will review and approve your account.", :email=>user.email, :admin_email=>@admin_user.email, :status=>201}
 					return
 				else
 					warden.custom_failure!
@@ -26,7 +26,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
 
 	def user_params
-		params.require(:user).permit(:email, :password, :confirm_password)
+		params.require(:user).permit(:email, :password, :confirm_password, :first_name, :last_name)
 	end
 
 end
