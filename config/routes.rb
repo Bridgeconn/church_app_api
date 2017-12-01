@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 		namespace :v1 do
 			devise_for :users,  path_names: {sign_in: "login", sign_out: "logout"},
 				controllers: {registrations: "api/v1/registrations", sessions: "api/v1/sessions"}
+
+			resources :events, only: [:index]
 		end
 	end
 
@@ -29,11 +31,11 @@ Rails.application.routes.draw do
 			resources :church_apps
 		end
 	end
+
+	post "admin_user/users/:user_id/member_approval/:member_id" => "admin_user/users#approve_member", as: :member_approval
 	
 	resources :church_apps, only: [] do
 		resources :events
 	end
-
-	get '/html_test' => 'admin_user/users#html_test'
 
 end
