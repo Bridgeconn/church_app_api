@@ -1,57 +1,26 @@
 class Api::V1::EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   respond_to :json
+  before_action :authenticate
 
   def index
-    if current_user.present? && (current_user.has_role? :admin) #&& (current_user.curch_apps.size > 0)
-      @events = Event.all
-    else
-      @events = nil
-    end
+    if request.headers["Church-App-Id"].present?
+      @churchId = request.headers["Church-App-Id"]
+      @churchApp = ChurchApp.find_by_church_app_id("#{@churchId}")
+      resource = User.find_for_database_authentication(:email=>params[:email])
+      if current_user.present?  && (current_user.curch_apps.size > 0)
+        @events = Event.all
+        render :json=> {:success=>true, :events=>@events}, :status=>208
+      else
+        @events = nil
+        render :json=> {:success=>false, :events=nil}, :status=>208
+      end
   end
-
-  def show
   
-  end
-
-  def new
-    @church_app = current_user.church_app
-    @event = @church_app.events.new
-  end
-
-  def edit
-  end
-
-  def create
-    @event = current_user.church_app.events.new(event_params)
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to church_app_events_path, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
-      else
-        format.html { render :new }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @event.update(event_params)
-        format.html { redirect_to church_app_events_path, notice: 'Event was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event }
-      else
-        format.html { render :edit }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def destroy
-    @event.destroy
-    respond_to do |format|
-      format.html { redirect_to church_appp_events_path, notice: 'Event was successfully destroyed.' }
-      format.json { head :no_content, deleted_from: "#{@church_app}", deleted: "#{@event}" }
+  protected
+  def authenticate
+    authenticate_or_request_with_http_token do |token, options|
+      User.find_by(auth_token: token)
     end
   end
 
