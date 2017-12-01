@@ -14,12 +14,12 @@ class Api::V1::SessionsController < Devise::SessionsController
 			if resource.valid_password?(params[:password])	
 				if resource.approved == true
 					sign_in("user", resource)
-					if resource.has_role? :member
+					# if resource.has_role? :member
 						@admin_user = @churchApp.user
 						render :json=> {:success=>true, :user => {:auth_token=>resource.auth_token,  :email=>resource.email, :first_name => resource.first_name, :last_name => resource.last_name, :user_status =>resource.approved, :user_contact =>resource.contact_number}, :admin_email=> @admin_user.email, :church_app_id => @churchApp.church_app_id, :church_name => @churchApp.name, :church_address => "#{@churchApp.address1 + " " + @churchApp.address3}", :status=>201}
-					else
-						render :json=> {:success=>false, :message=>"You are not valid user! Please Contact to Church Admin."}, :status=>208
-					end
+					# else
+					# 	render :json=> {:success=>false, :message=>"You are not valid user! Please Contact to Church Admin."}, :status=>208
+					# end
 				else
 					render :json=> {:success=>false, :message=>"Account is Not Approved Yet! Please Contact to Church Admin."}, :status=>208
 				end
@@ -32,10 +32,18 @@ class Api::V1::SessionsController < Devise::SessionsController
 	end
 
 	def destroy
-		sign_out(resource_name)
+		resource = User.find_by_authentication_token(params[:auth_token]||request.headers["X-AUTH-TOKEN"])
+    resource.authentication_token = nil
+    resource.save
+    sign_out(resource_name)
+    render :json => {}.to_json, :status => :ok
 	end
 
 	protected
+	def ensure_params_exist
+    return unless params[:user_login].blank?
+    render :json=>{:message=>"missing user_login parameter"}, :status=>422
+  end
 
 	def invalid_login_attempt
 		warden.custom_failure!
