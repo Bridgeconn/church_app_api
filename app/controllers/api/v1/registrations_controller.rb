@@ -3,8 +3,8 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 	respond_to :json
 
 	def create
-		if request.headers["Church-App-Id"].present?
-			@churchId = request.headers["Church-App-Id"]
+		@churchId = request.headers["Church-App-Id"]
+		if @churchId.present?
 			@churchApp = ChurchApp.find_by_church_app_id("#{@churchId}")
 			if @churchApp.present?
 				@admin_user = @churchApp.user
@@ -21,6 +21,8 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 			else
 				render :json=> {:invalid=>"Church App Invalid.", :suggestion=>"Contact to Church Owner."}, :status=>208
 			end
+		else
+			render :json=> {:success => false, :suggestion=>"Church ID missing"}, :status=>400
 		end
 	end
 
