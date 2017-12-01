@@ -12,6 +12,7 @@ $(document).ready(function () {
 });
 
 $(function () {
-    $('#datetimepicker1').appendDtpicker();
-    $('#datetimepicker2').appendDtpicker();
+  $('#datetimepicker1').appendDtpicker();
+  $('#datetimepicker2').appendDtpicker();
+
 });
