@@ -60,6 +60,20 @@ class AdminUser::UsersController < ApplicationController
 		end
 	end
 
+	def approve_member
+		# raise params.inspect
+		@user = User.find_by_id(params[:member_id]) rescue nil
+		if @user.present?
+			@user.approved = true
+			if @user.save
+				# raise @user.inspect
+				respond_to do |format|
+					format.html { redirect_to admin_user_users_path, notice: 'Member has been approved.' }
+				end
+			end
+		end
+	end
+
 	private
 	# Use callbacks to share common setup or constraints between actions.
 	def set_user
