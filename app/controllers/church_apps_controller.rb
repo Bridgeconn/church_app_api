@@ -16,18 +16,6 @@ class ChurchAppsController < ApplicationController
   def edit
   end
 
-  def html_test
-    cls = [{:status=> ["created", "no_change", "updated"], :prefered_term => "test term", :notation => "This is test notation" }]
-    results = [{:results =>"test", :date => "22/08/2017"}]
-    @html = CdiscChangesReport.new.create(results, cls, current_user)
-    respond_to do |format|
-      format.pdf do
-        @html = @html
-        render pdf: "cdisc_changes.pdf", page_size: 'A4', orientation: 'Landscape'
-      end
-    end
-  end
-
   def create
     @church_app = current_user.build_church_app(church_app_params)
     raise @church_app.inspect
