@@ -23,6 +23,8 @@ class EventsController < ApplicationController
   end
 
   def create
+    # raise event_params.inspect
+
     @event = current_user.church_app.events.new(event_params)
     respond_to do |format|
       if @event.save
@@ -64,6 +66,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.fetch(:event).permit(:event_name, :church_app_id, :event_venue_name, :event_start_time, :event_end_time, :event_speaker, {event_avtars: []})
+      params.fetch(:event).permit(:event_name, :church_app_id, :event_venue_name, :event_start_time, :event_end_time, :event_speaker, :event_avtars)
     end
 end
