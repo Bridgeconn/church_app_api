@@ -9,8 +9,9 @@ class Api::V1::EventsController < ApplicationController
       if request.headers["Church-App-Id"].present?
         @churchId = request.headers["Church-App-Id"]
         @churchApp = ChurchApp.find_by_church_app_id("#{@churchId}")
-        @church_admin = resource.member_belongs_to_admin rescue nil
-        if @church_admin.church_app
+        @church_admin = User.find(resource.member_belongs_to_admin) rescue nil
+        
+        if @church_admin.church_app.present?
           @events = @churchApp.events
           event_json = @events.map do |event| 
                     {name: event.event_name, event_venue_name: event.event_venue_name, 
