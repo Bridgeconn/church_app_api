@@ -16,7 +16,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 					sign_in("user", resource)
 					# if resource.has_role? :member
 						@admin_user = @churchApp.user
-						render :json=> {:success=>true, :user => {:auth_token=>resource.auth_token,  :email=>resource.email, :first_name => resource.first_name, :last_name => resource.last_name, :user_status =>resource.approved, :user_contact =>resource.contact_number}, :admin_email=> @admin_user.email, :church_app_id => @churchApp.church_app_id, :church_name => @churchApp.name, :church_address => "#{@churchApp.address1 + " " + @churchApp.address3}", :status=>201}
+						render :json=> {:success=>true, :user => {:auth_token=>resource.auth_token,  :email=>resource.email, :first_name => resource.first_name, :last_name => resource.last_name, :user_status =>resource.approved, :user_contact =>resource.contact_number}, :admin_email=> @admin_user.email, :church_name => @churchApp.name, :church_address => "#{@churchApp.address1 + " " + @churchApp.address3}", :status=>201}
 					# else
 					# 	render :json=> {:success=>false, :message=>"You are not valid user! Please Contact to Church Admin."}, :status=>208
 					# end
