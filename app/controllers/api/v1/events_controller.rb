@@ -4,7 +4,7 @@ class Api::V1::EventsController < ApplicationController
   # before_action :authenticate
 
   def index
-    resource = User.find_by_auth_token(params[:auth_token]||request.headers["AUTH-TOKEN"])
+    resource = User.find_by_auth_token(request.headers["AUTH-TOKEN"])
     if resource
       if request.headers["Church-App-Id"].present?
         @churchId = request.headers["Church-App-Id"]
@@ -12,7 +12,12 @@ class Api::V1::EventsController < ApplicationController
         
         if resource.church_app
           @events = @churchApp.events
-          render :json=> {:success=>true, :events=> @events}, :status=>208
+          event_json = @events.map do |event| 
+                    {name: event.event_name, event_venue_name: event.event_venue_name, 
+                      start_date: event.event_start_time, end_date: event.event_end_time, 
+                      speaker_name: event.event_speaker, event_banner: "#{request.protocol}#{request.host_with_port}#{event.event_avtars_url}"}
+          end
+          render :json=> {:success=>true, :events=> event_json}, :status=>208
         else
           @events = nil
           render :json=> {:success=>false, :events=> @events}, :status=>208
