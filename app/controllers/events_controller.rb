@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
 
   def index
-    if current_user.present? && (current_user.has_role? :admin) #&& (current_user.curch_apps.size > 0)
+    if current_user.present? && (current_user.has_role? :admin)
       @events = Event.all
     else
       @events = nil
@@ -11,7 +11,6 @@ class EventsController < ApplicationController
   end
 
   def show
-  
   end
 
   def new
@@ -23,8 +22,6 @@ class EventsController < ApplicationController
   end
 
   def create
-    # raise event_params.inspect
-
     @event = current_user.church_app.events.new(event_params)
     respond_to do |format|
       if @event.save
