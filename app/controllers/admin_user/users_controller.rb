@@ -61,12 +61,11 @@ class AdminUser::UsersController < ApplicationController
 	end
 
 	def approve_member
-		# raise params.inspect
 		@user = User.find_by_id(params[:member_id]) rescue nil
 		if @user.present?
 			@user.approved = true
+			@user.member_belongs_to_admin = current_user.id
 			if @user.save
-				# raise @user.inspect
 				respond_to do |format|
 					format.html { redirect_to admin_user_users_path, notice: 'Member has been approved.' }
 				end
