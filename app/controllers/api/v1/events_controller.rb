@@ -15,7 +15,7 @@ class Api::V1::EventsController < ApplicationController
           @events = @churchApp.events
           event_json = @events.map do |event| 
                     {name: event.event_name, event_venue_name: event.event_venue_name, 
-                      start_date: event.event_start_time, end_date: event.event_end_time, 
+                      start_date: event.event_start_time.strftime("%B %e, %Y at %I:%M %p"), end_date: event.event_end_time.strftime("%B %e, %Y at %I:%M %p"), 
                       speaker_name: event.event_speaker, event_banner: "#{request.protocol}#{request.host_with_port}#{event.event_avtars_url}"}
           end
           render :json=> {:success=>true, :events=> event_json}, :status=>208
