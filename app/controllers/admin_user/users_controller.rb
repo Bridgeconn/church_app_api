@@ -82,7 +82,7 @@ class AdminUser::UsersController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def user_params
-		params.require(:user).permit(:email,:first_name,:last_name,:password,:password_confirmation, church_app_attributes: [:name, :church_app_id, :address1, :address3, :_destroy])
+		params.require(:user).permit(:email,:first_name,:last_name,:password, :password_confirmation, :contact_number, church_app_attributes: [:name, :church_app_id, :address1, :address3, :_destroy])
 	end
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def update_user_params
