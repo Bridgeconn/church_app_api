@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 				controllers: {registrations: "api/v1/registrations", sessions: "api/v1/sessions"}
 
 			resources :events, only: [:index]
+
+			post "/users/contact_update" => "users#contact_update", as: :user_contact_update
+			get "/users/get_user_contact" => "users#get_user_contact", as: :user_contact_list
 		end
 	end
 
