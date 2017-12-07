@@ -1,7 +1,7 @@
 class Api::V1::EventsController < ApplicationController
-  # before_action :set_event, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token
   respond_to :json
-  # before_action :authenticate
+  
 
   def index
     resource = User.find_by_auth_token(request.headers["AUTH-TOKEN"])
@@ -18,10 +18,10 @@ class Api::V1::EventsController < ApplicationController
                       start_date: event.event_start_time.strftime("%B %e, %Y at %I:%M %p"), end_date: event.event_end_time.strftime("%B %e, %Y at %I:%M %p"), 
                       speaker_name: event.event_speaker, event_banner: "#{request.protocol}#{request.host_with_port}#{event.event_avtars_url}"}
           end
-          render :json=> {:success=>true, :events=> event_json}, :status=>208
+          render :json=> {:success=>true, :events=> event_json}, :status=>200
         else
           @events = nil
-          render :json=> {:success=>false, :events=> @events}, :status=>208
+          render :json=> {:success=>false, :events=> @events}, :status=>204
         end
       else
         render :json=> {:success=>false, :message=> "Church App Invalid, Please contact your church admin.!"}, :status=>400
