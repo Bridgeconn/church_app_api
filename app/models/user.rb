@@ -13,6 +13,10 @@ class User < ApplicationRecord
   require 'securerandom'
   before_create :set_auth_token
 
+  def full_name
+    self.first_name + " " + self.last_name
+  end
+
   # after_create :send_admin_mail
   # def send_admin_mail
   #   AdminMailer.new_user_waiting_for_approval(self).deliver
